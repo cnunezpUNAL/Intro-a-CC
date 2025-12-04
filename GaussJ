@@ -1,0 +1,199 @@
+#include <iostream>
+#include <stdio.h>
+#include <cmath>
+#include <functional>
+#define _USE_MATH_DEFINES
+using namespace std;
+void imprimirMatriz(double** matriz, int filas, int columnas) {
+    for (int i = 0; i < filas; ++i) {
+        for (int j = 0; j < columnas; ++j) {
+            cout << matriz[i][j] << "   ";
+        }
+        cout << endl;
+    }
+}
+void EliGauss(double **A, int n, double **L, double **U){
+    double y,z;
+    for(int i=0; i<n; i++){
+        if(A[i][i]==0){
+            for(int j=i; j<n; j++){
+            double* I=A[i];
+            if(A[j][i]!=0){
+            A[i]=A[j];
+            A[j]=I;
+            break;
+               }
+                
+            }
+        }
+            y=A[i][i];
+            for(int r=i+1; r<n; r++){
+             z=A[r][i]/y;
+             if(A[r][i]!=0){
+                L[r][i]=z; 
+        
+             for(int j=i; j<=n; j++){
+                A[r][j]=A[r][j]-(z*A[i][j]); 
+             }
+            }}
+           L[i][i]=1; 
+        
+    }
+    
+    for(int i=0; i<n; i++)
+    for(int j=0; j<n; j++)
+    U[i][j]=A[i][j];
+    
+    
+    
+    for(int i=0; i<n; i++){
+    y=A[i][i];
+    for(int j=0; j<=n; j++)
+    A[i][j]=A[i][j]/y;
+    }
+    for(int i=n-1; i>=0; i--){
+        double sum=0;
+        for(int j=i+1; j<n; j++){
+            sum=sum+A[i][j]*A[j][n];
+            
+        }
+        A[i][n]-=sum;
+    }
+}
+
+
+double** defp(int n){
+    double **A=new double*[n];
+for(int i=0; i<n; i++)
+A[i]=new double[n+1];
+return A;
+}
+
+void eg(double **A, int n){
+    double y,z;
+    for(int i=0; i<n; i++){
+        if(A[i][i]==0){
+            for(int j=i; j<n; j++){
+            double* I=A[i];
+            if(A[j][i]!=0){
+            A[i]=A[j];
+            A[j]=I;
+            break;
+               }
+                
+            }
+        }
+            y=A[i][i];
+            for(int r=i+1; r<n; r++){
+             z=A[r][i]/y;
+             if(A[r][i]!=0){
+                for(int j=i; j<=n; j++){
+                A[r][j]=A[r][j]-(z*A[i][j]); 
+             }
+            }}
+           
+        
+    }
+   
+    
+    for(int i=0; i<n; i++){
+    y=A[i][i];
+    for(int j=0; j<=n; j++)
+    A[i][j]=A[i][j]/y;
+    }
+    
+    for(int i=n-1; i>=0; i--){
+    for(int r=i-1; r>=0; r--){
+           double  z=A[r][i];
+             if(A[r][i]!=0){
+             for(int j=0; j<=n; j++){
+                A[r][j]=A[r][j]-(z*A[i][j]);
+        }}
+    }
+}  
+}
+void egli(double **A, int n,double **I){
+    double y,z;
+    for(int i=0; i<n; i++){
+        if(A[i][i]==0){
+            for(int j=i; j<n; j++){
+            double* p=A[i];
+            if(A[j][i]!=0){
+            A[i]=A[j];
+            A[j]=p;
+            break;
+               }
+                
+            }
+        }
+            y=A[i][i];
+            for(int r=i+1; r<n; r++){
+             z=A[r][i]/y;
+             if(A[r][i]!=0){
+                for(int j=0; j<=n; j++){
+                A[r][j]=A[r][j]-(z*A[i][j]); 
+                I[r][j]=I[r][j]-(z*I[i][j]);
+             }
+            }}
+           
+        
+    }
+   
+    
+    for(int i=0; i<n; i++){
+    y=A[i][i];
+    for(int j=0; j<=n; j++){
+    A[i][j]=A[i][j]/y;
+    I[i][j]=I[i][j]/y;
+    }}
+    
+    for(int i=n-1; i>=0; i--){
+    for(int r=i-1; r>=0; r--){
+           double  z=A[r][i];
+             if(A[r][i]!=0){
+             for(int j=0; j<=n; j++){
+                A[r][j]=A[r][j]-(z*A[i][j]);
+                I[r][j]=I[r][j]-(z*I[i][j]);
+        }}
+    }
+}  
+}
+
+
+
+
+
+
+
+
+
+
+
+int main()
+{
+    int n=3;
+double** A=defp(n);
+double** I=defp(n);
+double** U=defp(n);
+for(int i=0; i<n; i++){
+    for(int j=0; j<n; j++){
+        if(i==j)
+        I[i][j]=1;
+        else 
+        I[i][j]=0;
+    }
+}
+
+A[0][0] =  2;  A[0][1] = -3;  A[0][2] = -5;
+A[1][0] =  3;  A[1][1] = -1;  A[1][2] = -2;
+A[2][0] =  1;  A[2][1] =  2;  A[2][2] =  4;
+A[0][3]=1; A[1][3]=3; A[2][3]=4;
+cout<<endl;
+imprimirMatriz(I,n,n);
+egli(A,n,I);
+imprimirMatriz(I,n,n+1);
+
+
+
+
+}
